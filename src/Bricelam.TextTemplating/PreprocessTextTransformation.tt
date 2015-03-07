@@ -1,0 +1,71 @@
+﻿<#@ template visibility="internal" #>
+<#@ import namespace="Bricelam.TextTemplating.Parsing" #>
+<#
+    foreach (var import in _result.Imports)
+    {
+#>
+using <#= import #>;
+<#
+    }
+#>
+
+namespace <#= _classNamespace #>
+{
+    public partial class <#= _className #> : TextTransformation
+	{
+		public override string TransformText()
+		{
+<#
+	foreach (var block in _result.ContentBlocks)
+    {
+#>
+			<#= Render(block) #>
+<#
+    }
+#>
+
+			return GenerationEnvironment.ToString();
+		}
+
+<#
+	foreach (var block in _result.ContentBlocks)
+    {
+#>
+		<#= Render(block) #>
+<#
+    }
+#>
+	}
+}
+<#+
+    private readonly string _className;
+    private readonly string _classNamespace;
+    private readonly ParseResult _result;
+
+    public PreprocessTextTransformation(string className, string classNamespace, ParseResult result)
+    {
+        _className = className;
+        _classNamespace = classNamespace;
+        _result = result;
+    }
+
+    private string Render(Block block)
+    {
+        switch (block.BlockType)
+        {
+            case BlockType.TextBlock:
+                return "Write(\"" +
+                    block.Content.Replace("\\", "\\\\").Replace("\r\n", "\\r\\n") +
+                    "\");";
+
+            case BlockType.StandardControlBlock:
+                return block.Content;
+
+            case BlockType.ExpressionControlBlock:
+                return "Write((" + block.Content + ").ToString());";
+
+            default:
+                throw new InvalidOperationException("Unexpected block type.");
+        }
+    }
+#>
