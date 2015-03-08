@@ -45,15 +45,19 @@ namespace Bricelam.TextTemplating.CommandLine
             foreach (var template in templates)
             {
                 Console.WriteLine("Processing '{0}'...", template);
-                var host = new TextTemplatingEngineHost();
+                var host = new CommandLineEngineHost();
                 var fileName = Path.GetFileNameWithoutExtension(template);
                 var content = File.ReadAllText(template);
 
                 string transformedText;
                 if (preprocess)
                 {
-                    var classNamespace = _appEnv.ApplicationName + '.' + Path.GetDirectoryName(template)
-                        .Substring(_appEnv.ApplicationBasePath.Length + 1).Replace(Path.DirectorySeparatorChar, '.');
+                    var relativeDir = Path.GetDirectoryName(template).Substring(_appEnv.ApplicationBasePath.Length);
+                    var classNamespace = _appEnv.ApplicationName;
+                    if (relativeDir.Length != 0)
+                    {
+                        classNamespace += '.' + relativeDir.Replace(Path.DirectorySeparatorChar, '.');
+                    }
 
                     string language;
                     string[] references;

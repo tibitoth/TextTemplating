@@ -4,6 +4,7 @@
     {
         TextBlock,
         StandardControlBlock,
-        ExpressionControlBlock
+        ExpressionControlBlock,
+        Directive
     }
 }

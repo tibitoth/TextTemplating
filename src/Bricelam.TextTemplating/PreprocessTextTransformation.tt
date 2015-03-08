@@ -11,7 +11,7 @@ using <#= import #>;
 
 namespace <#= _classNamespace #>
 {
-    public partial class <#= _className #> : TextTransformation
+    <#= _result.Visibility #> partial class <#= _className #> : TextTransformation
 	{
 		public override string TransformText()
 		{
@@ -28,7 +28,7 @@ namespace <#= _classNamespace #>
 		}
 
 <#
-	foreach (var block in _result.ContentBlocks)
+	foreach (var block in _result.FeatureBlocks)
     {
 #>
 		<#= Render(block) #>

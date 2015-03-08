@@ -16,7 +16,9 @@ namespace Bricelam.TextTemplating
 
             Write("\r\nnamespace ");
             Write((_classNamespace).ToString());
-            Write("\r\n{\r\n    public partial class ");
+            Write("\r\n{\r\n    ");
+            Write((_result.Visibility).ToString());
+            Write(" partial class ");
             Write((_className).ToString());
             Write(" : TextTransformation\r\n    {\r\n        public override string TransformText()\r\n        {\r\n");
 

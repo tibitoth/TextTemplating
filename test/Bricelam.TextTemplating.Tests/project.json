@@ -1,0 +1,14 @@
+﻿{
+    "version": "1.0.0-*",
+    "dependencies": {
+        "Bricelam.TextTemplating": "1.0.0-*",
+        "xunit.runner.aspnet": "2.0.0-aspnet-*"
+    },
+    "frameworks": {
+        "aspnet50": { },
+        "aspnetcore50": { }
+    },
+    "commands": {
+        "test": "xunit.runner.aspnet"
+    }
+}
