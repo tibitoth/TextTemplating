@@ -13,7 +13,7 @@ namespace Bricelam.TextTemplating.CommandLine
 
         public IList<string> StandardAssemblyReferences { get; } = new List<string>
         {
-#if ASPNETCORE50
+#if DNXCORE50
             "System.Runtime",
 #else
             "System",
