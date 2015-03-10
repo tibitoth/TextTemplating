@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Text;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Emit;
 
 namespace Bricelam.TextTemplating
@@ -10,7 +11,7 @@ namespace Bricelam.TextTemplating
         IList<string> StandardImports { get; }
 
         void LogErrors(EmitResult result);
-        string ResolveAssemblyReference(string assemblyReference);
+        MetadataReference ResolveAssemblyReference(string assemblyReference);
         void SetFileExtension(string extension);
         void SetOutputEncoding(Encoding encoding, bool fromOutputDirective);
     }

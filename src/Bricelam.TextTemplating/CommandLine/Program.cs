@@ -10,10 +10,12 @@ namespace Bricelam.TextTemplating.CommandLine
     internal class Program
     {
         private readonly IApplicationEnvironment _appEnv;
+        private readonly ILibraryManager _libraryManager;
 
-        public Program(IApplicationEnvironment appEnv)
+        public Program(IApplicationEnvironment appEnv, ILibraryManager libraryManager)
         {
             _appEnv = appEnv;
+            _libraryManager = libraryManager;
         }
 
         public int Main(string[] args)
@@ -45,7 +47,7 @@ namespace Bricelam.TextTemplating.CommandLine
             foreach (var template in templates)
             {
                 Console.WriteLine("Processing '{0}'...", template);
-                var host = new CommandLineEngineHost();
+                var host = new CommandLineEngineHost(_libraryManager);
                 var fileName = Path.GetFileNameWithoutExtension(template);
                 var content = File.ReadAllText(template);
 
@@ -74,10 +76,17 @@ namespace Bricelam.TextTemplating.CommandLine
                     transformedText = engine.ProcessTemplate(content, host);
                 }
 
-
                 var output = Path.ChangeExtension(template, host.FileExtension);
                 Console.WriteLine("Writing '{0}'...", output);
-                File.WriteAllText(output, transformedText);
+                
+                if (host.Encoding != null)
+                {
+                    File.WriteAllText(output, transformedText, host.Encoding);
+                }
+                else
+                {
+                    File.WriteAllText(output, transformedText);
+                }
             }
 
             return 0;
