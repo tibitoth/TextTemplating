@@ -60,7 +60,7 @@ namespace Bricelam.TextTemplating
             {
                 case BlockType.TextBlock:
                     return "Write(\"" +
-                        block.Content.Replace("\\", "\\\\").Replace("\r\n", "\\r\\n") +
+                        block.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r\n", "\\r\\n") +
                         "\");";
 
                 case BlockType.StandardControlBlock:

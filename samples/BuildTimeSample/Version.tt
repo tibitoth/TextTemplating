@@ -1,0 +1,15 @@
+<#
+    var major = 1;
+    var minor = 0;
+    var epoch = new DateTime(2000, 1, 1);
+    
+    var now = DateTime.UtcNow;
+    var today = new DateTime(now.Year, now.Month, now.Day);
+    
+    var build = (int)(today - epoch).TotalDays;
+    var revision = (int)(now - today).TotalSeconds / 2;
+    var version = new Version(1, 0, build, revision);
+#>
+using System.Reflection;
+
+[assembly: AssemblyFileVersion("<#= version #>")]
