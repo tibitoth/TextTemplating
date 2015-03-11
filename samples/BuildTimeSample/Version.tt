@@ -8,7 +8,7 @@
     
     var build = (int)(today - epoch).TotalDays;
     var revision = (int)(now - today).TotalSeconds / 2;
-    var version = new Version(1, 0, build, revision);
+    var version = new Version(major, minor, build, revision);
 #>
 using System.Reflection;
 
