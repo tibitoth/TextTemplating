@@ -3,6 +3,7 @@
     "dependencies": {
         "Microsoft.CodeAnalysis.CSharp": "1.0.0-*",
         "Microsoft.Framework.CommandLineUtils": "1.0.0-*",
+        "Microsoft.Framework.DependencyInjection.Interfaces": "1.0.0-*",
         "Microsoft.Framework.FileSystemGlobbing": "1.0.0-*",
         "Microsoft.Framework.Runtime.Interfaces": "1.0.0-*",
         "Microsoft.Framework.Runtime.Roslyn": "1.0.0-*"

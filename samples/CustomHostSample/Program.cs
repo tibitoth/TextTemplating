@@ -16,7 +16,7 @@ namespace CustomHostSample
         
         void Main()
         {
-            var host = new CommandLineEngineHost(_libraryManager);
+            var host = new CustomEngineHost();
             var engine = new Engine();
             var template = "The current date is: <#= DateTime.Today.ToString(\"ddd MM/dd/yyyy\") #>";
             var output = engine.ProcessTemplate(template, host);
