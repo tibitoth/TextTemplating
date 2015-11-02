@@ -1,4 +1,4 @@
-﻿namespace Bricelam.TextTemplating.Parsing
+﻿namespace TextTemplating.T4.Parsing
 {
     public enum BlockType
     {

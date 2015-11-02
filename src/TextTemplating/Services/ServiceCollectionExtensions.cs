@@ -1,12 +1,12 @@
-using Bricelam.TextTemplating;
+using Microsoft.Framework.DependencyInjection;
 
-namespace Microsoft.Framework.DependencyInjection
+namespace TextTemplating.Services
 {
     public static class ServiceCollectionExtensions
     {
         public static IServiceCollection AddTextTemplating(this IServiceCollection serviceCollection)
         {
-            serviceCollection.AddSingleton<ITextTemplating, TextTemplatingService>();
+            serviceCollection.AddSingleton<ITextTemplatingService, TextTemplatingService>();
 
             return serviceCollection;
         }

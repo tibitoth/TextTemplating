@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.22609.0
+VisualStudioVersion = 14.0.24606.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{37E36B03-F04E-49F5-982E-9FC0F86E9213}"
 EndProject
@@ -10,11 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		global.json = global.json
 	EndProjectSection
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Bricelam.TextTemplating", "src\Bricelam.TextTemplating\Bricelam.TextTemplating.kproj", "{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{87789603-0CDA-469D-AFFC-BB0A451D4547}"
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "Bricelam.TextTemplating.Tests", "test\Bricelam.TextTemplating.Tests\Bricelam.TextTemplating.Tests.kproj", "{EE37A8DB-4A70-497A-812E-D9CAD39C2C07}"
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TextTemplating", "src\TextTemplating\TextTemplating.xproj", "{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

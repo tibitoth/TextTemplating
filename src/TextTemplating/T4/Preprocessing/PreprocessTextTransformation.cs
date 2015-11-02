@@ -1,13 +1,15 @@
 ﻿using System;
-using Bricelam.TextTemplating.Parsing;
+using System.Linq;
+using TextTemplating.Infrastructure;
+using TextTemplating.T4.Parsing;
 
-namespace Bricelam.TextTemplating
+namespace TextTemplating.T4.Preprocessing
 {
-    internal partial class PreprocessTextTransformation : TextTransformation
+    internal partial class PreprocessTextTransformation : TextTransformationBase
     {
         public override string TransformText()
         {
-            foreach (var import in _result.Imports)
+            foreach (var import in _result.Imports.Distinct())
             {
                 Write("using ");
                 Write((import).ToString());
@@ -20,7 +22,7 @@ namespace Bricelam.TextTemplating
             Write((_result.Visibility).ToString());
             Write(" partial class ");
             Write((_className).ToString());
-            Write(" : TextTransformation\r\n    {\r\n        public override string TransformText()\r\n        {\r\n");
+            Write(" : TextTransformationBase\r\n    {\r\n        public override string TransformText()\r\n        {\r\n");
 
             foreach (var block in _result.ContentBlocks)
             {
@@ -47,11 +49,12 @@ namespace Bricelam.TextTemplating
         private readonly string _classNamespace;
         private readonly ParseResult _result;
 
-        public PreprocessTextTransformation(string className, string classNamespace, ParseResult result)
+        public PreprocessTextTransformation(string className, string classNamespace, ParseResult result, ITextTemplatingEngineHost host)
         {
             _className = className;
             _classNamespace = classNamespace;
             _result = result;
+            Host = host;
         }
 
         private string Render(Block block)

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Bricelam.TextTemplating.Parsing
+namespace TextTemplating.T4.Parsing
 {
     internal class ParseResult
     {

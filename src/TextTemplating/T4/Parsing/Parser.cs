@@ -1,15 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using TextTemplating.Infrastructure;
 
-namespace Bricelam.TextTemplating.Parsing
+namespace TextTemplating.T4.Parsing
 {
     internal class Parser
     {
         private readonly ITextTemplatingEngineHost _host;
 
+        // TODO:    use comparer based on os.
+        private readonly HashSet<string> _includedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
         public Parser(ITextTemplatingEngineHost host)
-        {
+        {            
             _host = host;
         }
 
@@ -155,7 +159,7 @@ namespace Bricelam.TextTemplating.Parsing
                 arguments.Add(name, value);
             }
 
-            var directiveProcessor = new StandardDirectiveProcessor(result);
+            var directiveProcessor = new StandardDirectiveProcessorBase(result);
             directiveProcessor.Initialize(_host);
             if (!directiveProcessor.IsDirectiveSupported(directiveName))
             {
@@ -172,6 +176,41 @@ namespace Bricelam.TextTemplating.Parsing
             foreach (var import in directiveProcessor.GetImportsForProcessingRun())
             {
                 result.Imports.Add(import);
+            }
+
+            foreach (var includeFile in directiveProcessor.GetIncludeFilesForProcessingRun())
+            {
+                if (includeFile.Once)
+                {
+                    if (_includedFiles.Contains(includeFile.File))
+                    {
+                        continue;
+                    }
+                    _includedFiles.Add(includeFile.File);
+                }
+                var includeResult = new Parser(_host).Parse(_host.LoadIncludeFile(includeFile.File));
+
+                // TODO:    handle/validate includeResult.Language and includeResult.Visibility.
+
+                foreach (var contentBlock in includeResult.ContentBlocks)
+                {
+                    result.ContentBlocks.Add(contentBlock);
+                }
+
+                foreach (var featureBlock in includeResult.FeatureBlocks)
+                {
+                    result.FeatureBlocks.Add(featureBlock);
+                }
+
+                foreach (var reference in includeResult.References)
+                {
+                    result.References.Add(reference);
+                }
+
+                foreach (var import in includeResult.Imports)
+                {
+                    result.Imports.Add(import);
+                }                
             }
         }
     }
