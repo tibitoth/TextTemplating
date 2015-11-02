@@ -1,3 +1,5 @@
+# OUTDATED, UPDATE IN PROGRESS
+
 # TextTemplating
 T4 for ASP.NET 5
 
