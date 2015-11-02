@@ -20,7 +20,7 @@
   },
 
   "commands": {
-    "ConsoleApp1": "TextTemplating"
+    "TextTemplating": "TextTemplating"
   },
 
   "frameworks": {
