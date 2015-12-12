@@ -1,11 +1,11 @@
 {
-    "version": "1.0.0-*",
-    "dependencies": {
-        "Bricelam.TextTemplating": "1.0.0-*",
-        "Microsoft.Framework.DependencyInjection": "1.0.0-*"
-    },
-    "frameworks": {
-        "dnx451": { },
-        "dnxcore50": { }
-    }
+  "version": "1.0.0-*",
+  "dependencies": {
+    "TextTemplating": "1.0.0-rc1-final",
+    "Microsoft.Extensions.DependencyInjection": "1.0.0-rc1-final"
+  },
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  }
 }

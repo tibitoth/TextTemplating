@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0-beta8",
+  "version": "1.0.0-rc1-final",
   "description": "TextTemplating Console Application",
   "authors": [ "totht91" ],
   "tags": [ "" ],
@@ -7,16 +7,14 @@
   "licenseUrl": "",
 
   "dependencies": {
-    "Microsoft.CodeAnalysis.Common": "1.1.0-beta1-20150928-02",
-    "Microsoft.CodeAnalysis.CSharp": "1.1.0-beta1-20150928-02",
-    "Microsoft.Dnx.Compilation.CSharp.Abstractions": "1.0.0-beta8",
-    "Microsoft.Framework.DependencyInjection.Abstractions": "1.0.0-beta8",
-    "Microsoft.Dnx.Runtime.Abstractions": "1.0.0-beta8",
-    "Microsoft.Framework.FileSystemGlobbing": "1.0.0-beta8",
-    "Microsoft.Framework.Runtime": "1.0.0-beta7-12275",
-    "Microsoft.Framework.CommandLineUtils.Sources": "1.0.0-beta8-15616",
-    "Microsoft.Dnx.Compilation.CSharp": "1.0.0-beta8",
-    "Microsoft.AspNet.Mvc.Razor.Host": "6.0.0-beta8"
+    "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final",
+    "Microsoft.Extensions.FileSystemGlobbing": "1.0.0-rc1-final",
+    "Microsoft.AspNet.Mvc.Razor.Host": "6.0.0-rc1-final",
+    "Microsoft.Extensions.PlatformAbstractions": "1.0.0-rc1-final",
+    "Microsoft.Dnx.Compilation.Abstractions": "1.0.0-rc1-final",
+    "Microsoft.CodeAnalysis.CSharp": "1.1.0-rc1-20151109-01",
+    "Microsoft.Dnx.Compilation.CSharp.Abstractions": "1.0.0-rc1-final",
+    "Microsoft.Extensions.CommandLineUtils.Sources": "1.0.0-rc1-15838"
   },
 
   "commands": {
@@ -34,12 +32,12 @@
     },
     "dnxcore50": {
       "dependencies": {
-        "Microsoft.CSharp": "4.0.1-beta-23409",
-        "System.Collections": "4.0.11-beta-23409",
-        "System.Console": "4.0.0-beta-23409",
-        "System.Linq": "4.0.1-beta-23409",
-        "System.Threading": "4.0.11-beta-23409",
-        "System.Text.RegularExpressions": "4.0.11-beta-23409"
+        "Microsoft.CSharp": "4.0.0",
+        "System.Collections": "4.0.0",
+        "System.Console": "4.0.0-beta-23516",
+        "System.Linq": "4.0.0",
+        "System.Threading": "4.0.0",
+        "System.Text.RegularExpressions": "4.0.10"
       }
     }
   }

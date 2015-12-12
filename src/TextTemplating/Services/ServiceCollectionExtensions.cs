@@ -1,14 +1,16 @@
-using Microsoft.Framework.DependencyInjection;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace TextTemplating.Services
 {
-    public static class ServiceCollectionExtensions
-    {
-        public static IServiceCollection AddTextTemplating(this IServiceCollection serviceCollection)
-        {
-            serviceCollection.AddSingleton<ITextTemplatingService, TextTemplatingService>();
+    // TODO service support
+    //public static class ServiceCollectionExtensions
+    //{
+    //    public static IServiceCollection AddTextTemplating(this IServiceCollection serviceCollection)
+    //    {
+    //        serviceCollection.AddSingleton<ITextTemplatingService, TextTemplatingService>();
 
-            return serviceCollection;
-        }
-    }
+    //        return serviceCollection;
+    //    }
+    //}
 }

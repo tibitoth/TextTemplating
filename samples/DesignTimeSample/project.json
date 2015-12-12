@@ -1,13 +1,17 @@
 {
-    "version": "1.0.0-*",
-    "dependencies": {
-        "Bricelam.TextTemplating": "1.0.0-*"
-    },
-    "frameworks": {
-        "dnx451": { },
-        "dnxcore50": { }
-    },
-    "commands": {
-        "t4": "Bricelam.TextTemplating"
-    }
+  "version": "1.0.0-*",
+  "dependencies": {
+    "TextTemplating": "1.0.0-rc1-final"
+  },
+  "frameworks": {
+    "dnx451": { },
+    "dnxcore50": { }
+  },
+  "commands": {
+    "t4": "TextTemplating --t4-template --dir ./Templates",
+    "razor": "TextTemplating --razor --dir ./Templates"
+  },
+  "exclude": [
+    "node_modules"
+  ]
 }

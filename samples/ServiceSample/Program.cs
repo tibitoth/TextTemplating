@@ -1,6 +1,4 @@
 using System;
-using Bricelam.TextTemplating;
-using Microsoft.Framework.DependencyInjection;
 
 namespace ServiceSample
 {
@@ -8,15 +6,16 @@ namespace ServiceSample
     {
         static void Main()
         {
-            var services = new ServiceCollection()
-                .AddTextTemplating()
-                .BuildServiceProvider();
-            var textTemplating = services.GetService<ITextTemplating>();
-            
-            var template = "The current time is: <#= DateTime.Now.ToString(\"HH:mm:ss.ff\") #>";
-            var output = textTemplating.ProcessTemplate(template);
+            // TODO service support
+            //var services = new ServiceCollection()
+            //    .AddTextTemplating()
+            //    .BuildServiceProvider();
+            //var textTemplating = services.GetService<ITextTemplating>();
 
-            Console.WriteLine(output);
+            //var template = "The current time is: <#= DateTime.Now.ToString(\"HH:mm:ss.ff\") #>";
+            //var output = textTemplating.ProcessTemplate(template);
+
+            //Console.WriteLine(output);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
-VisualStudioVersion = 14.0.24606.1
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{37E36B03-F04E-49F5-982E-9FC0F86E9213}"
 EndProject
@@ -11,6 +11,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TextTemplating", "src\TextTemplating\TextTemplating.xproj", "{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5A045F8B-7EFE-4723-8EB7-79A1A6C30886}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BuildTimeSample", "samples\BuildTimeSample\BuildTimeSample.xproj", "{287DDB45-18B8-4C4E-9850-59611273D556}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DesignTimeSample", "samples\DesignTimeSample\DesignTimeSample.xproj", "{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RuntimeTemplateSample", "samples\RuntimeTemplateSample\RuntimeTemplateSample.xproj", "{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ServiceSample", "samples\ServiceSample\ServiceSample.xproj", "{DF2B53F6-A7B6-4295-B201-21A578CE87B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -22,16 +32,31 @@ Global
 		{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EE37A8DB-4A70-497A-812E-D9CAD39C2C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EE37A8DB-4A70-497A-812E-D9CAD39C2C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EE37A8DB-4A70-497A-812E-D9CAD39C2C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EE37A8DB-4A70-497A-812E-D9CAD39C2C07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{287DDB45-18B8-4C4E-9850-59611273D556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{287DDB45-18B8-4C4E-9850-59611273D556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{287DDB45-18B8-4C4E-9850-59611273D556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{287DDB45-18B8-4C4E-9850-59611273D556}.Release|Any CPU.Build.0 = Release|Any CPU
+		{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF2B53F6-A7B6-4295-B201-21A578CE87B8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF2B53F6-A7B6-4295-B201-21A578CE87B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF2B53F6-A7B6-4295-B201-21A578CE87B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF2B53F6-A7B6-4295-B201-21A578CE87B8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9D28691F-7810-4B35-A395-BBF2C8AFA0CD} = {37E36B03-F04E-49F5-982E-9FC0F86E9213}
-		{EE37A8DB-4A70-497A-812E-D9CAD39C2C07} = {87789603-0CDA-469D-AFFC-BB0A451D4547}
+		{287DDB45-18B8-4C4E-9850-59611273D556} = {5A045F8B-7EFE-4723-8EB7-79A1A6C30886}
+		{52ADFC3E-1BA8-4611-97C7-0F8D130968E5} = {5A045F8B-7EFE-4723-8EB7-79A1A6C30886}
+		{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05} = {5A045F8B-7EFE-4723-8EB7-79A1A6C30886}
+		{DF2B53F6-A7B6-4295-B201-21A578CE87B8} = {5A045F8B-7EFE-4723-8EB7-79A1A6C30886}
 	EndGlobalSection
 EndGlobal

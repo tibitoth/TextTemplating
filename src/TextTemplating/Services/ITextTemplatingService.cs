@@ -1,7 +1,8 @@
 namespace TextTemplating.Services
 {
-    public interface ITextTemplatingService
-    {
-        string ProcessT4Template(string content);
-    }
+    // TODO service support
+    //public interface ITextTemplatingService
+    //{
+    //    //string ProcessT4Template(string content);
+    //}
 }

@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Runtime;
 using Microsoft.Dnx.Runtime.Common.CommandLine;
-using Microsoft.Framework.FileSystemGlobbing;
 using TextTemplating.Infrastructure;
+using Microsoft.Extensions.FileSystemGlobbing;
+using Microsoft.Extensions.PlatformAbstractions;
 
 namespace TextTemplating
 {

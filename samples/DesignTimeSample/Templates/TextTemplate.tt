@@ -4,6 +4,7 @@
     {
 #>
 Line <#= i #>
+
 <#
     }
     
@@ -12,6 +13,6 @@ Line <#= i #>
 <#+
     void SayHello()
     {
-        Write("Hello, World!");
+        Write("Hello, World!\n");
     }
 #>
