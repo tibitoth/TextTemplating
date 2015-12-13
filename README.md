@@ -22,7 +22,7 @@ Now you can use the `tt` command as a command line tool to transform templates a
 - `--t4-template` or `-t4` flag: Enable to process t4 template files (*.tt) and generate outputs.
 - `--razor` or `-r` flag: Enable to process razor files (*.cshtml) and generate outputs.
 - `--preprocess` or `-p` flag: If you use this with `-t4` flag the output will be a runtime text template.
-- `--dir` or `-d` optional single value argument: Specify the working directory. The default is the project's root folder. The processing is recursive in the current working directory.
+- `--dir` or `-d` optional single value argument: Specify the working directory. The default is the project's root folder, and the processing is recursive in the current working directory.
 
 Example:
 ```Batchfile
