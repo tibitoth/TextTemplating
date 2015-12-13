@@ -83,11 +83,7 @@ After that the template files will be automatically processed in save. (also in 
 ### As a library
 To transform templates at runtime, you can also use the `Engine` class.
 
-```C#
-var engine = new Engine();
-var host = MyCustomEngineHost();
-var output = engine.ProcessTemplate(inputTemplate, host);
-```
+*Sample is work in progres*
 
 ### As a service
-Work in progres
+*Work in progres*
