@@ -2,6 +2,9 @@
 ## Goal
 This project's goal is to bring the old T4 text templating and Razor code generating approach to the new ASP.NET 5 projects.
 
+### Update 
+The Visual Studio 2015 Update 1 now supports to process *.tt files in desing time, but this repo is maybe still useful who wants to process T4 templates in a dnx project outside visual studio (eg. in Mac with Visual Studio Code)
+
 ## How to use
 ### As a command line tool
 Add the following to your `project.json`.
