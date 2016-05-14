@@ -90,3 +90,6 @@ To transform templates at runtime, you can also use the `Engine` class.
 
 ### As a service
 *Work in progres*
+
+# License
+MIT

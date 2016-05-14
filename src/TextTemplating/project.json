@@ -1,10 +1,10 @@
 {
   "version": "1.0.0-rc1-final",
-  "description": "TextTemplating Console Application",
-  "authors": [ "totht91" ],
-  "tags": [ "" ],
-  "projectUrl": "",
-  "licenseUrl": "",
+  "description": "T4 and Razor scaffolding for ASP.NET Core 1.0 without Visual Studio",
+  "authors": [ "Tibor Tóth" ],
+  "tags": [ "T4 Razor TextTemplating aspnetcore" ],
+  "projectUrl": "https://github.com/totht91/TextTemplating",
+  "licenseUrl": "http://www.opensource.org/licenses/MIT",
 
   "dependencies": {
     "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0-rc1-final",
