@@ -8,8 +8,6 @@ using System.Reflection;
 using System.Reflection.PortableExecutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Compilation.CSharp;
 
 namespace TextTemplating.Infrastructure
 {

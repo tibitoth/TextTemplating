@@ -2,12 +2,11 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Razor;
-using Microsoft.AspNet.Razor.CodeGenerators;
-using Microsoft.Dnx.Compilation;
+using Microsoft.AspNetCore.Razor;
 using TextTemplating.Razor;
 using TextTemplating.T4.Parsing;
 using TextTemplating.T4.Preprocessing;
+using Microsoft.AspNetCore.Razor.CodeGenerators;
 
 namespace TextTemplating.Infrastructure
 {

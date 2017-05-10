@@ -2,20 +2,19 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
-using Microsoft.Dnx.Compilation;
-using Microsoft.Dnx.Runtime.Common.CommandLine;
 using TextTemplating.Infrastructure;
 using Microsoft.Extensions.FileSystemGlobbing;
 using Microsoft.Extensions.PlatformAbstractions;
+using Microsoft.Extensions.CommandLineUtils;
 
 namespace TextTemplating
 {
     public class Program
     {
-        private readonly IApplicationEnvironment _appEnv;
+        private readonly ApplicationEnvironment _appEnv;
         private readonly ILibraryExporter _libraryExporter;
 
-        public Program(IApplicationEnvironment appEnv, ILibraryExporter libraryExporter)
+        public Program(ApplicationEnvironment appEnv, ILibraryExporter libraryExporter)
         {
             _appEnv = appEnv;
             _libraryExporter = libraryExporter;

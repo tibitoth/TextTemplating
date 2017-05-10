@@ -1,26 +1,23 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26403.7
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{37E36B03-F04E-49F5-982E-9FC0F86E9213}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D844C66-96F0-45D5-8AAB-A5FED91EE176}"
-	ProjectSection(SolutionItems) = preProject
-		global.json = global.json
-	EndProjectSection
-EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "TextTemplating", "src\TextTemplating\TextTemplating.xproj", "{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5A045F8B-7EFE-4723-8EB7-79A1A6C30886}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextTemplating", "src\TextTemplating\TextTemplating.csproj", "{9D28691F-7810-4B35-A395-BBF2C8AFA0CD}"
+EndProject
 Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "BuildTimeSample", "samples\BuildTimeSample\BuildTimeSample.xproj", "{287DDB45-18B8-4C4E-9850-59611273D556}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "DesignTimeSample", "samples\DesignTimeSample\DesignTimeSample.xproj", "{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DesignTimeSample", "samples\DesignTimeSample\DesignTimeSample.csproj", "{52ADFC3E-1BA8-4611-97C7-0F8D130968E5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "RuntimeTemplateSample", "samples\RuntimeTemplateSample\RuntimeTemplateSample.xproj", "{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RuntimeTemplateSample", "samples\RuntimeTemplateSample\RuntimeTemplateSample.csproj", "{9D60ACE8-F1DD-4D82-B3A6-4C605DD82A05}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "ServiceSample", "samples\ServiceSample\ServiceSample.xproj", "{DF2B53F6-A7B6-4295-B201-21A578CE87B8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceSample", "samples\ServiceSample\ServiceSample.csproj", "{DF2B53F6-A7B6-4295-B201-21A578CE87B8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
