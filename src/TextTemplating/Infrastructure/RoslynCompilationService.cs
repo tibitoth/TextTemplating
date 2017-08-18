@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Reflection.PortableExecutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.DotNet.ProjectModel.Compilation;
 
 namespace TextTemplating.Infrastructure
 {
@@ -15,10 +16,10 @@ namespace TextTemplating.Infrastructure
     {
         private readonly ConcurrentDictionary<string, AssemblyMetadata> _metadataFileCache = new ConcurrentDictionary<string, AssemblyMetadata>(StringComparer.OrdinalIgnoreCase);
 
-        private readonly ILibraryExporter _libraryExporter;
+        private readonly LibraryExporter _libraryExporter;
         private readonly ITextTemplatingEngineHost _host;
 
-        public RoslynCompilationService(ILibraryExporter libraryExporter, ITextTemplatingEngineHost host)
+        public RoslynCompilationService(LibraryExporter libraryExporter, ITextTemplatingEngineHost host)
         {
             _libraryExporter = libraryExporter;
             _host = host;
@@ -28,7 +29,7 @@ namespace TextTemplating.Infrastructure
         {
             var compilation = CSharpCompilation.Create(
                 assemblyName,
-                new[] {SyntaxFactory.ParseSyntaxTree(preprocessResult.PreprocessedContent)},
+                new[] { SyntaxFactory.ParseSyntaxTree(preprocessResult.PreprocessedContent) },
                 preprocessResult.References.SelectMany(ResolveAssemblyReference),
                 new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
@@ -40,74 +41,80 @@ namespace TextTemplating.Infrastructure
                 var transformationAssembly = (Assembly)typeof(Assembly).GetTypeInfo().GetDeclaredMethods("Load").First(m =>
                 {
                     var parameters = m.GetParameters();
-                    return parameters.Length == 1 && parameters[0].ParameterType == typeof (byte[]);
-                }).Invoke(null, new[] {stream.ToArray()});
+                    return parameters.Length == 1 && parameters[0].ParameterType == typeof(byte[]);
+                }).Invoke(null, new[] { stream.ToArray() });
 
                 return transformationAssembly;
             }
         }
 
+        /// <summary>
+        /// Resolve assembly reference by GAC name or .dll file's absolute path
+        /// </summary> 
+        /// <param name="assemblyReference"></param>
+        /// <returns></returns>
         public IList<MetadataReference> ResolveAssemblyReference(string assemblyReference)
         {
             var references = new List<MetadataReference>();
+            //var libraryExport = _libraryExporter.GetExport(assemblyReference);
+            // 首先尝试从
+            MetadataReference.CreateFromFile(assemblyReference);
+            //if (libraryExport?.MetadataReferences != null && libraryExport.MetadataReferences.Count > 0)
+            //{
+            //    Debug.Assert(libraryExport.MetadataReferences.Count == 1, "Expected 1 MetadataReferences, found " + libraryExport.MetadataReferences.Count);
 
-            var libraryExport = _libraryExporter.GetExport(assemblyReference);
-            if (libraryExport?.MetadataReferences != null && libraryExport.MetadataReferences.Count > 0)
-            {
-                Debug.Assert(libraryExport.MetadataReferences.Count == 1, "Expected 1 MetadataReferences, found " + libraryExport.MetadataReferences.Count);
+            //    var roslynReference = libraryExport.MetadataReferences[0] as IRoslynMetadataReference;
+            //    var compilationReference = roslynReference?.MetadataReference as CompilationReference;
+            //    if (compilationReference != null)
+            //    {
+            //        references.AddRange(compilationReference.Compilation.References);
+            //        references.Add(roslynReference.MetadataReference);
+            //        return references;
+            //    }
+            //}
 
-                var roslynReference = libraryExport.MetadataReferences[0] as IRoslynMetadataReference;
-                var compilationReference = roslynReference?.MetadataReference as CompilationReference;
-                if (compilationReference != null)
-                {
-                    references.AddRange(compilationReference.Compilation.References);
-                    references.Add(roslynReference.MetadataReference);
-                    return references;
-                }
-            }
-
-            var export = _libraryExporter.GetAllExports(assemblyReference);
-            if (export != null)
-            {
-                references.AddRange(export.MetadataReferences.Select(ConvertMetadataReference));
-            }
+            //var export = _libraryExporter.GetAllExports(assemblyReference);
+            //if (export != null)
+            //{
+            //    references.AddRange(export.MetadataReferences.Select(ConvertMetadataReference));
+            //}
 
             return references;
         }
 
-        private MetadataReference ConvertMetadataReference(IMetadataReference metadataReference)
-        {
-            var roslynReference = metadataReference as IRoslynMetadataReference;
-            if (roslynReference != null)
-            {
-                return roslynReference.MetadataReference;
-            }
+        //private MetadataReference ConvertMetadataReference(IMetadataReference metadataReference)
+        //{
+        //    var roslynReference = metadataReference as IRoslynMetadataReference;
+        //    if (roslynReference != null)
+        //    {
+        //        return roslynReference.MetadataReference;
+        //    }
 
-            var embeddedReference = metadataReference as IMetadataEmbeddedReference;
-            if (embeddedReference != null)
-            {
-                return MetadataReference.CreateFromImage(embeddedReference.Contents);
-            }
+        //    var embeddedReference = metadataReference as IMetadataEmbeddedReference;
+        //    if (embeddedReference != null)
+        //    {
+        //        return MetadataReference.CreateFromImage(embeddedReference.Contents);
+        //    }
 
-            var fileMetadataReference = metadataReference as IMetadataFileReference;
-            if (fileMetadataReference != null)
-            {
-                return CreateMetadataFileReference(fileMetadataReference.Path);
-            }
+        //    var fileMetadataReference = metadataReference as IMetadataFileReference;
+        //    if (fileMetadataReference != null)
+        //    {
+        //        return CreateMetadataFileReference(fileMetadataReference.Path);
+        //    }
 
-            var projectReference = metadataReference as IMetadataProjectReference;
-            if (projectReference != null)
-            {
-                using (var ms = new MemoryStream())
-                {
-                    projectReference.EmitReferenceAssembly(ms);
+        //    var projectReference = metadataReference as IMetadataProjectReference;
+        //    if (projectReference != null)
+        //    {
+        //        using (var ms = new MemoryStream())
+        //        {
+        //            projectReference.EmitReferenceAssembly(ms);
 
-                    return MetadataReference.CreateFromImage(ms.ToArray());
-                }
-            }
+        //            return MetadataReference.CreateFromImage(ms.ToArray());
+        //        }
+        //    }
 
-            throw new NotSupportedException();
-        }
+        //    throw new NotSupportedException();
+        //}
 
         private MetadataReference CreateMetadataFileReference(string path)
         {

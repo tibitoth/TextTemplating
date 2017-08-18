@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -25,13 +25,8 @@ namespace TextTemplating.Infrastructure
 
         public IList<string> StandardAssemblyReferences { get; } = new List<string>
         {
-            // TODO dnx
-#if DNXCORE50
-            "System.Runtime",
-#else
             "mscorlib",
-#endif
-            "TextTemplating",
+            "TextTemplating"
         };
 
         public IList<string> StandardImports { get; } = new List<string>
@@ -40,8 +35,7 @@ namespace TextTemplating.Infrastructure
             "TextTemplating",
             "TextTemplating.Infrastructure",
             "TextTemplating.T4.Parsing",
-            "TextTemplating.T4.Preprocessing",
-            "TextTemplating.Razor",
+            "TextTemplating.T4.Preprocessing"
         };
 
         public void LogErrors(EmitResult result)

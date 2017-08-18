@@ -1,33 +1,31 @@
-﻿using System;
+using System;
 using System.Linq;
 using TextTemplating.Infrastructure;
 using TextTemplating.T4.Parsing;
 
 namespace TextTemplating.T4.Preprocessing
 {
-    internal partial class PreprocessTextTransformation : TextTransformationBase
+    internal class PreprocessTextTransformation : TextTransformationBase
     {
         public override string TransformText()
         {
             foreach (var import in _result.Imports.Distinct())
             {
-                Write("using ");
-                Write((import).ToString());
-                Write(";\r\n");
+                WriteLine($"using {import};");
             }
 
-            Write("\r\nnamespace ");
-            Write((_classNamespace).ToString());
+            Write($"{Environment.NewLine}namespace ");
+            Write(_classNamespace);
             Write("\r\n{\r\n    ");
-            Write((_result.Visibility).ToString());
+            Write(_result.Visibility);
             Write(" partial class ");
-            Write((_className).ToString());
+            Write(_className);
             Write(" : TextTransformationBase\r\n    {\r\n        public override string TransformText()\r\n        {\r\n");
 
             foreach (var block in _result.ContentBlocks)
             {
                 Write("            ");
-                Write((Render(block)).ToString());
+                Write(Render(block));
                 Write("\r\n");
             }
 
@@ -36,7 +34,7 @@ namespace TextTemplating.T4.Preprocessing
             foreach (var block in _result.FeatureBlocks)
             {
                 Write("        ");
-                Write((Render(block)).ToString());
+                Write(Render(block));
                 Write("\r\n");
             }
 

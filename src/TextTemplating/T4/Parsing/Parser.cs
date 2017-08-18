@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using TextTemplating.Infrastructure;
@@ -17,8 +17,20 @@ namespace TextTemplating.T4.Parsing
             _host = host;
         }
 
-        private static readonly Regex _startPattern = new Regex(@"\<#[@=+]?");
-        private static readonly Regex _endPattern = new Regex(@"#\>");
+        /// <summary>
+        /// T4 模板开始标记
+        /// </summary>
+        /// <code>
+        /// &lt;@ DirectiveName [AttributeName = "AttributeValue"] ... #&gt;
+        /// &lt;# Standard control blocks #&gt;
+        /// &lt;#= Expression control blocks #&gt;
+        /// &lt;#+ Class feature control blocks #&gt; 
+        /// </code>
+        private static readonly Regex StartPattern = new Regex(@"\<#[@=+]?");
+        /// <summary>
+        /// T4 模板结束标记
+        /// </summary>
+        private static readonly Regex EndPattern = new Regex(@"#\>");
 
         public ParseResult Parse(string content)
         {
@@ -34,17 +46,21 @@ namespace TextTemplating.T4.Parsing
                 result.Imports.Add(import);
             }
 
-            var nextPattern = _startPattern;
+            var nextPattern = StartPattern;
             var start = 0;
             var nextType = BlockType.TextBlock;
             var addToFeatures = false;
 
             var match = nextPattern.Match(content, start);
-            while (match.Success)
+
+            // 把模板文本分块处理
+            while (match.Success) 
             {
                 if (match.Index > start)
                 {
+                    // 匹配到的部分前面一部分字符
                     var blockContent = content.Substring(start, match.Index - start);
+                    // 移除换行部分
                     if (blockContent.StartsWith(Environment.NewLine))
                     {
                         blockContent = blockContent.Substring(Environment.NewLine.Length);
@@ -56,7 +72,7 @@ namespace TextTemplating.T4.Parsing
                     else if (blockContent.Length != 0)
                     {
                         var block = new Block { BlockType = nextType, Content = blockContent };
-                        if (!addToFeatures)
+                        if (addToFeatures == false)
                         {
                             result.ContentBlocks.Add(block);
                         }
@@ -70,32 +86,32 @@ namespace TextTemplating.T4.Parsing
                 switch (match.Value)
                 {
                     case "<#@":
-                        nextPattern = _endPattern;
+                        nextPattern = EndPattern;
                         start = match.Index + 3;
                         nextType = BlockType.Directive;
                         break;
 
                     case "<#":
-                        nextPattern = _endPattern;
+                        nextPattern = EndPattern;
                         start = match.Index + 2;
                         nextType = BlockType.StandardControlBlock;
                         break;
 
                     case "<#=":
-                        nextPattern = _endPattern;
+                        nextPattern = EndPattern;
                         start = match.Index + 3;
                         nextType = BlockType.ExpressionControlBlock;
                         break;
 
                     case "<#+":
-                        nextPattern = _endPattern;
+                        nextPattern = EndPattern;
                         start = match.Index + 3;
                         nextType = BlockType.StandardControlBlock;
                         addToFeatures = true;
                         break;
 
                     case "#>":
-                        nextPattern = _startPattern;
+                        nextPattern = StartPattern;
                         start = match.Index + 2;
                         nextType = BlockType.TextBlock;
                         break;
@@ -142,14 +158,14 @@ namespace TextTemplating.T4.Parsing
 
         private void ProcessDirective(string blockContent, ParseResult result)
         {
-            var match = Regex.Match(blockContent, @"\s*(?<directiveName>\w+)(\s+(?<argument>\w+)=""(?<value>.*)"")*");
+            var match = Regex.Match(blockContent, @"\s*(?<directiveName>\w+)(\s+(?<attribute>\w+)=""(?<value>.*)"")*");
             if (!match.Success)
             {
                 return;
             }
 
             var directiveName = match.Groups["directiveName"].Value;
-            var argumentCount = match.Groups["argument"].Captures.Count;
+            var argumentCount = match.Groups["attribute"].Captures.Count;
             var arguments = new Dictionary<string, string>();
             for (int i = 0; i < argumentCount; i++)
             {
@@ -168,16 +184,8 @@ namespace TextTemplating.T4.Parsing
 
             directiveProcessor.ProcessDirective(directiveName, arguments);
 
-            foreach (var reference in directiveProcessor.GetReferencesForProcessingRun())
-            {
-                result.References.Add(reference);
-            }
-
-            foreach (var import in directiveProcessor.GetImportsForProcessingRun())
-            {
-                result.Imports.Add(import);
-            }
-
+            result.References.AddRange(directiveProcessor.GetReferencesForProcessingRun());
+            result.Imports.AddRange(directiveProcessor.GetImportsForProcessingRun());
             foreach (var includeFile in directiveProcessor.GetIncludeFilesForProcessingRun())
             {
                 if (includeFile.Once)
@@ -192,25 +200,10 @@ namespace TextTemplating.T4.Parsing
 
                 // TODO:    handle/validate includeResult.Language and includeResult.Visibility.
 
-                foreach (var contentBlock in includeResult.ContentBlocks)
-                {
-                    result.ContentBlocks.Add(contentBlock);
-                }
-
-                foreach (var featureBlock in includeResult.FeatureBlocks)
-                {
-                    result.FeatureBlocks.Add(featureBlock);
-                }
-
-                foreach (var reference in includeResult.References)
-                {
-                    result.References.Add(reference);
-                }
-
-                foreach (var import in includeResult.Imports)
-                {
-                    result.Imports.Add(import);
-                }                
+                result.ContentBlocks.AddRange(includeResult.ContentBlocks);
+                result.FeatureBlocks.AddRange(includeResult.FeatureBlocks);
+                result.References.AddRange(includeResult.References);
+                result.Imports.AddRange(includeResult.Imports);
             }
         }
     }

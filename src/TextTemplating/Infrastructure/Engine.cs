@@ -1,21 +1,20 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Razor;
+using Microsoft.DotNet.ProjectModel.Compilation;
 using TextTemplating.Razor;
 using TextTemplating.T4.Parsing;
 using TextTemplating.T4.Preprocessing;
-using Microsoft.AspNetCore.Razor.CodeGenerators;
 
 namespace TextTemplating.Infrastructure
 {
     public class Engine
     {
-        private readonly ILibraryExporter _libraryExporter;
+        private readonly LibraryExporter _libraryExporter;
         private readonly ITextTemplatingEngineHost _host;
 
-        public Engine(ILibraryExporter libraryExporter, ITextTemplatingEngineHost host)
+        public Engine(LibraryExporter libraryExporter, ITextTemplatingEngineHost host)
         {
             _libraryExporter = libraryExporter;
             _host = host;
@@ -54,52 +53,52 @@ namespace TextTemplating.Infrastructure
             return transformation.TransformText();
         }
 
-        public PreprocessResult PreprocessRazorTemplate(string content, string className, string classNamespace)
-        {
-            var language = new CSharpRazorCodeLanguage();
-            var razorHost = new RazorEngineHost(language)
-            {
-                DefaultBaseClass = typeof(TemplateBase).FullName,
-                DefaultNamespace = classNamespace,
-                DefaultClassName = className,
-                GeneratedClassContext = new GeneratedClassContext(
-                    nameof(TemplateBase.ExecuteAsync),
-                    nameof(TemplateBase.Write),
-                    nameof(TemplateBase.WriteLiteral),
-                    new GeneratedTagHelperContext())
-            };
-            razorHost.NamespaceImports.Add(classNamespace);
+        //public PreprocessResult PreprocessRazorTemplate(string content, string className, string classNamespace)
+        //{
+        //    var language = new CSharpRazorCodeLanguage();
+        //    var razorHost = new RazorEngineHost(language)
+        //    {
+        //        DefaultBaseClass = typeof(TemplateBase).FullName,
+        //        DefaultNamespace = classNamespace,
+        //        DefaultClassName = className,
+        //        GeneratedClassContext = new GeneratedClassContext(
+        //            nameof(TemplateBase.ExecuteAsync),
+        //            nameof(TemplateBase.Write),
+        //            nameof(TemplateBase.WriteLiteral),
+        //            new GeneratedTagHelperContext())
+        //    };
+        //    razorHost.NamespaceImports.Add(classNamespace);
 
-            var razorEngine = new RazorTemplateEngine(razorHost);
-            var generatorResults = razorEngine.GenerateCode(new StringReader(content));
-            if (!generatorResults.Success)
-            {
-                throw new Exception(string.Join(Environment.NewLine, generatorResults.ParserErrors.Select(x => x.Message)));
-            }
+        //    var razorEngine = new RazorTemplateEngine(razorHost);
+        //    var generatorResults = razorEngine.GenerateCode(new StringReader(content));
+        //    if (!generatorResults.Success)
+        //    {
+        //        throw new Exception(string.Join(Environment.NewLine, generatorResults.ParserErrors.Select(x => x.Message)));
+        //    }
 
-            var preprocessResult = new PreprocessResult()
-            {
-                PreprocessedContent = generatorResults.GeneratedCode,
-                References = _host.StandardImports.ToList(),
-            };
+        //    var preprocessResult = new PreprocessResult()
+        //    {
+        //        PreprocessedContent = generatorResults.GeneratedCode,
+        //        References = _host.StandardImports.ToList(),
+        //    };
 
-            return preprocessResult;
-        }
+        //    return preprocessResult;
+        //}
 
-        public async Task<string> ProcessRazorTemplate(string content)
-        {
-            var className = "GeneratedClass";
-            var classNamespace = "Generated";
-            var assemblyName = "Generated";
+        //public async Task<string> ProcessRazorTemplate(string content)
+        //{
+        //    var className = "GeneratedClass";
+        //    var classNamespace = "Generated";
+        //    var assemblyName = "Generated";
 
-            var preprocessResult = PreprocessRazorTemplate(content, className, classNamespace);
+        //    var preprocessResult = PreprocessRazorTemplate(content, className, classNamespace);
 
-            var compiler = new RoslynCompilationService(_libraryExporter, _host);
-            var assembly = compiler.Compile(assemblyName, preprocessResult);
+        //    var compiler = new RoslynCompilationService(_libraryExporter, _host);
+        //    var assembly = compiler.Compile(assemblyName, preprocessResult);
 
-            var instanceType = assembly.GetType(classNamespace + "." + className);
-            var instance = (TemplateBase)Activator.CreateInstance(instanceType);
-            return await instance.GenerateCodeAsync();
-        }
+        //    var instanceType = assembly.GetType(classNamespace + "." + className);
+        //    var instance = (TemplateBase)Activator.CreateInstance(instanceType);
+        //    return await instance.GenerateCodeAsync();
+        //}
     }
 }

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "name": "ASP.NET",
+  "name": "asp.net",
   "private": true,
   "devDependencies": {
     "dateformat": "~1.0.11",

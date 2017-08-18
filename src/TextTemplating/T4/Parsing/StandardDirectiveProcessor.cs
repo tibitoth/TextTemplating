@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TextTemplating.Infrastructure;
@@ -7,6 +7,11 @@ namespace TextTemplating.T4.Parsing
 {
     internal class StandardDirectiveProcessorBase : DirectiveProcessorBase
     {
+        private static readonly string[] SupportedDirectives =
+        {
+            "template","output","assembly","import","include"
+        };
+
         private readonly ParseResult _result;
         private readonly ICollection<string> _references = new List<string>();
         private readonly ICollection<string> _imports = new List<string>();
@@ -24,40 +29,28 @@ namespace TextTemplating.T4.Parsing
             _host = host;
         }
 
-        public override bool IsDirectiveSupported(string directiveName) =>
-            directiveName == "template"
-                || directiveName == "output"
-                || directiveName == "assembly"
-                || directiveName == "import"
-                || directiveName == "include";
+        public override bool IsDirectiveSupported(string directiveName) => SupportedDirectives.Contains(directiveName);
 
         public override void ProcessDirective(string directiveName, IDictionary<string, string> arguments)
         {
             switch (directiveName)
             {
                 case "template":
-                    string visibility;
-                    if (arguments.TryGetValue("visibility", out visibility))
+                    if (arguments.TryGetValue("visibility", out string visibility))
                     {
                         _result.Visibility = visibility;
                     }
                     break;
 
                 case "output":
-                    string extension;
-                    if (arguments.TryGetValue("extension", out extension))
+                    if (arguments.TryGetValue("extension", out string extension))
                     {
                         _host.SetFileExtension(extension);
                     }
                     string encoding;
                     if (arguments.TryGetValue("encoding", out encoding))
                     {
-                        int codepage;
-                        _host.SetOutputEncoding(
-                            /*int.TryParse(encoding, out codepage)
-                                ? Encoding.GetEncoding(codepage)
-                                : */Encoding.GetEncoding(encoding),
-                            fromOutputDirective: true);
+                        _host.SetOutputEncoding(Encoding.GetEncoding(encoding), fromOutputDirective: true);
                     }
                     break;
 
@@ -78,13 +71,13 @@ namespace TextTemplating.T4.Parsing
                     break;
 
                 case "include":
-                    string file;
-                    if (arguments.TryGetValue("file", out file))
+                    
+                    if (arguments.TryGetValue("file", out string file))
                     {
-                        string onceArgument;
-                        arguments.TryGetValue("once", out onceArgument);
-                        bool once;
-                        bool.TryParse(onceArgument, out once);
+                        
+                        arguments.TryGetValue("once", out string onceArgument);
+                       
+                        bool.TryParse(onceArgument, out bool once);
                         _includeFiles.Add(new IncludeFile(file, once));
                     }
                     break;

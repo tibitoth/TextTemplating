@@ -1,6 +1,3 @@
-
-using Microsoft.Extensions.DependencyInjection;
-
 namespace TextTemplating.Services
 {
     // TODO service support

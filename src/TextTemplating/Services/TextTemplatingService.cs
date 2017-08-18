@@ -1,5 +1,4 @@
-using Microsoft.Dnx.Compilation;
-using Microsoft.Extensions.DependencyInjection;
+
 using Microsoft.Extensions.PlatformAbstractions;
 using TextTemplating.Infrastructure;
 
