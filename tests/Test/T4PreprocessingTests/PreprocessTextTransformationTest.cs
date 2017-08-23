@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions;
-using Test.ParserTests;
 using Testable;
 using TextTemplating.Infrastructure;
 using TextTemplating.T4.Parsing;
 using TextTemplating.T4.Preprocessing;
+using TextTemplating.Test.ParserTests;
 using Xunit;
 
 namespace TextTemplating.Test.T4PreprocessingTests

@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using Microsoft.DotNet.InternalAbstractions;
 using TextTemplating.Infrastructure;
 using TextTemplating.T4.Parsing;
 

@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using Test.ParserTests;
 using Xunit;
 using TextTemplating.T4.Parsing;
 

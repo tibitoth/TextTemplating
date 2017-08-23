@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.CodeAnalysis.Emit;
 using TextTemplating.Infrastructure;
 
-namespace Test.ParserTests
+namespace TextTemplating.Test.ParserTests
 {
     public class MockTemplatingHost : ITextTemplatingEngineHost
     {

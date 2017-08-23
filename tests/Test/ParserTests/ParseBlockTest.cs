@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Test.ParserTests;
 using Xunit;
 using TextTemplating.T4.Parsing;
 using FluentAssertions;

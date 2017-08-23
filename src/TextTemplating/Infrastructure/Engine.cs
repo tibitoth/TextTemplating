@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.DotNet.ProjectModel.Compilation;
 using TextTemplating.T4.Parsing;
 using TextTemplating.T4.Preprocessing;
 
@@ -10,12 +9,10 @@ namespace TextTemplating.Infrastructure
 {
     public class Engine
     {
-        private readonly LibraryExporter _libraryExporter;
         private readonly ITextTemplatingEngineHost _host;
 
-        public Engine(LibraryExporter libraryExporter, ITextTemplatingEngineHost host)
+        public Engine(ITextTemplatingEngineHost host)
         {
-            _libraryExporter = libraryExporter;
             _host = host;
         }
 
@@ -42,7 +39,7 @@ namespace TextTemplating.Infrastructure
 
             var preResult = PreprocessT4Template(content, className, classNamespace);
 
-            var compiler = new RoslynCompilationService(_libraryExporter, _host);
+            var compiler = new RoslynCompilationService(_host);
             var transformationAssembly = compiler.Compile(assemblyName, preResult);
 
             var transformationType = transformationAssembly.GetType(classNamespace + "." + className);

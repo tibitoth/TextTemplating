@@ -1,27 +1,26 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.PortableExecutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.DotNet.ProjectModel.Compilation;
+using Microsoft.CodeAnalysis.Host.Mef;
+using Microsoft.CodeAnalysis.Text;
 
 namespace TextTemplating.Infrastructure
 {
     public class RoslynCompilationService
     {
         private readonly ConcurrentDictionary<string, AssemblyMetadata> _metadataFileCache = new ConcurrentDictionary<string, AssemblyMetadata>(StringComparer.OrdinalIgnoreCase);
-
-        private readonly LibraryExporter _libraryExporter;
+        
         private readonly ITextTemplatingEngineHost _host;
 
-        public RoslynCompilationService(LibraryExporter libraryExporter, ITextTemplatingEngineHost host)
+        public RoslynCompilationService(ITextTemplatingEngineHost host)
         {
-            _libraryExporter = libraryExporter;
+            //_libraryExporter = libraryExporter;
             _host = host;
         }
 
@@ -55,6 +54,7 @@ namespace TextTemplating.Infrastructure
         /// <returns></returns>
         public IList<MetadataReference> ResolveAssemblyReference(string assemblyReference)
         {
+            
             var references = new List<MetadataReference>();
             //var libraryExport = _libraryExporter.GetExport(assemblyReference);
             // 首先尝试从
