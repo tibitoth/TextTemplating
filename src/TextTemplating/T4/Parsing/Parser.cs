@@ -1,10 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text.RegularExpressions;
 using TextTemplating.Infrastructure;
 
+[assembly: InternalsVisibleTo("TextTemplating.Test")]
 namespace TextTemplating.T4.Parsing
 {
+    
     internal class Parser
     {
         private readonly ITextTemplatingEngineHost _host;
@@ -61,10 +64,10 @@ namespace TextTemplating.T4.Parsing
                     // 匹配到的部分前面一部分字符
                     var blockContent = content.Substring(start, match.Index - start);
                     // 移除换行部分
-                    if (blockContent.StartsWith(Environment.NewLine))
-                    {
-                        blockContent = blockContent.Substring(Environment.NewLine.Length);
-                    }
+                    //if (blockContent.StartsWith(Environment.NewLine))
+                    //{
+                    //    blockContent = blockContent.Substring(Environment.NewLine.Length);
+                    //}
                     if (nextType == BlockType.Directive)
                     {
                         ProcessDirective(blockContent, result);
@@ -106,7 +109,7 @@ namespace TextTemplating.T4.Parsing
                     case "<#+":
                         nextPattern = EndPattern;
                         start = match.Index + 3;
-                        nextType = BlockType.StandardControlBlock;
+                        nextType = BlockType.ClassFeatureControlBlock;
                         addToFeatures = true;
                         break;
 
@@ -131,10 +134,10 @@ namespace TextTemplating.T4.Parsing
             if (start < content.Length)
             {
                 var blockContent = content.Substring(start);
-                if (blockContent.StartsWith(Environment.NewLine))
-                {
-                    blockContent = blockContent.Substring(Environment.NewLine.Length);
-                }
+                //if (blockContent.StartsWith(Environment.NewLine))
+                //{
+                //    blockContent = blockContent.Substring(Environment.NewLine.Length);
+                //}
                 if (nextType == BlockType.Directive)
                 {
                     ProcessDirective(blockContent, result);
@@ -169,7 +172,7 @@ namespace TextTemplating.T4.Parsing
             var arguments = new Dictionary<string, string>();
             for (int i = 0; i < argumentCount; i++)
             {
-                var name = match.Groups["argument"].Captures[i].Value;
+                var name = match.Groups["attribute"].Captures[i].Value;
                 var value = match.Groups["value"].Captures[i].Value;
 
                 arguments.Add(name, value);

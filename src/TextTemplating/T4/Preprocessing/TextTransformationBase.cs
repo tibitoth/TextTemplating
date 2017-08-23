@@ -55,11 +55,21 @@ namespace TextTemplating.T4.Preprocessing
                     textToAppend.Length - _currentIndent.Length);
                 _endWithNewLine = true;
             }
+            else
+            {
+                _endWithNewLine = false;
+            }
 
             GenerationEnvironment.Append(textToAppend);
 
         }
-        public void WriteLine(string textToAppend) => GenerationEnvironment.AppendLine(textToAppend);
+
+        public void WriteLine(string textToAppend)
+        {
+            Write(textToAppend);
+            GenerationEnvironment.AppendLine();
+            _endWithNewLine = true;
+        }
 
         public ITextTemplatingEngineHost Host { get; set; }
 

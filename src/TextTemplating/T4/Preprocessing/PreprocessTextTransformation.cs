@@ -1,48 +1,16 @@
 using System;
 using System.Linq;
+using Microsoft.DotNet.InternalAbstractions;
 using TextTemplating.Infrastructure;
 using TextTemplating.T4.Parsing;
 
 namespace TextTemplating.T4.Preprocessing
 {
+    /// <summary>
+    /// Transform .tt to .cs
+    /// </summary>
     internal class PreprocessTextTransformation : TextTransformationBase
     {
-        public override string TransformText()
-        {
-            foreach (var import in _result.Imports.Distinct())
-            {
-                WriteLine($"using {import};");
-            }
-
-            Write($"{Environment.NewLine}namespace ");
-            Write(_classNamespace);
-            Write("\r\n{\r\n    ");
-            Write(_result.Visibility);
-            Write(" partial class ");
-            Write(_className);
-            Write(" : TextTransformationBase\r\n    {\r\n        public override string TransformText()\r\n        {\r\n");
-
-            foreach (var block in _result.ContentBlocks)
-            {
-                Write("            ");
-                Write(Render(block));
-                Write("\r\n");
-            }
-
-            Write("\r\n            return GenerationEnvironment.ToString();\r\n        }\r\n\r\n");
-
-            foreach (var block in _result.FeatureBlocks)
-            {
-                Write("        ");
-                Write(Render(block));
-                Write("\r\n");
-            }
-
-            Write("    }\r\n}\r\n");
-
-            return GenerationEnvironment.ToString();
-        }
-
         private readonly string _className;
         private readonly string _classNamespace;
         private readonly ParseResult _result;
@@ -55,20 +23,56 @@ namespace TextTemplating.T4.Preprocessing
             Host = host;
         }
 
+        public override string TransformText()
+        {
+            foreach (var import in _result.Imports.Distinct())
+            {
+                WriteLine($"using {import};");
+            }
+
+            Write($"{Environment.NewLine}namespace {_classNamespace}");
+            Write($"{Environment.NewLine}{{{Environment.NewLine}");
+            PushIndent("    ");
+            Write($"{_result.Visibility} partial class {_className} : TextTransformationBase{Environment.NewLine}");
+            Write($"{Environment.NewLine}{{{Environment.NewLine}");
+            PushIndent("    ");
+            Write("public override string TransformText()");
+            Write($"{Environment.NewLine}{{{Environment.NewLine}");
+            PushIndent("    ");
+
+            foreach (var block in _result.ContentBlocks)
+            {
+                WriteLine(Render(block));
+            }
+
+            Write("return GenerationEnvironment.ToString();");
+            PopIndent();
+            Write($"{Environment.NewLine}}}{Environment.NewLine}");
+
+            // todo add feature block supports
+            //foreach (var block in _result.FeatureBlocks)
+            //{
+            //    WriteLine(Render(block));
+            //}
+
+            PopIndent();
+            Write($"{Environment.NewLine}}}{Environment.NewLine}");
+
+            return GenerationEnvironment.ToString();
+        }
+        
         private string Render(Block block)
         {
             switch (block.BlockType)
             {
                 case BlockType.TextBlock:
-                    return "Write(\"" +
-                        block.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r\n", "\\r\\n") +
-                        "\");";
+                    return $"Write(\"{block.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r", "\\r").Replace("\n","\\n")}\");";
 
                 case BlockType.StandardControlBlock:
                     return block.Content;
 
                 case BlockType.ExpressionControlBlock:
-                    return "Write((" + block.Content + ").ToString());";
+                    return $"Write(({block.Content}).ToString());";
 
                 default:
                     throw new InvalidOperationException("Unexpected block type.");

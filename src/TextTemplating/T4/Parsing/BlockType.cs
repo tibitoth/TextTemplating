@@ -1,10 +1,11 @@
-﻿namespace TextTemplating.T4.Parsing
+namespace TextTemplating.T4.Parsing
 {
     public enum BlockType
     {
         TextBlock,
         StandardControlBlock,
         ExpressionControlBlock,
-        Directive
+        Directive,
+        ClassFeatureControlBlock
     }
 }
