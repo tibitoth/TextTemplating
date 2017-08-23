@@ -49,7 +49,7 @@ namespace TextTemplating.T4.Preprocessing
             {
                 GenerationEnvironment.Append(_currentIndent);
             }
-            if (textToAppend.EndsWith(Environment.NewLine))
+            if (textToAppend.EndsWith(Environment.NewLine + _currentIndent))
             {
                 textToAppend = textToAppend.Substring(0,
                     textToAppend.Length - _currentIndent.Length);

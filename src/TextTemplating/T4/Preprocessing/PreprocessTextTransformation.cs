@@ -30,45 +30,48 @@ namespace TextTemplating.T4.Preprocessing
                 WriteLine($"using {import};");
             }
 
-            Write($"{Environment.NewLine}namespace {_classNamespace}");
-            Write($"{Environment.NewLine}{{{Environment.NewLine}");
+            WriteLine($"{Environment.NewLine}namespace {_classNamespace}");
+            WriteLine("{");
             PushIndent("    ");
-            Write($"{_result.Visibility} partial class {_className} : TextTransformationBase{Environment.NewLine}");
-            Write($"{Environment.NewLine}{{{Environment.NewLine}");
+            WriteLine($"{_result.Visibility} partial class {_className} : TextTransformationBase");
+            WriteLine("{");
             PushIndent("    ");
-            Write("public override string TransformText()");
-            Write($"{Environment.NewLine}{{{Environment.NewLine}");
+            WriteLine("public override string TransformText()");
+            WriteLine("{");
             PushIndent("    ");
 
             foreach (var block in _result.ContentBlocks)
             {
                 WriteLine(Render(block));
             }
-
-            Write("return GenerationEnvironment.ToString();");
+            WriteLine("");
+            WriteLine("return GenerationEnvironment.ToString();");
             PopIndent();
-            Write($"{Environment.NewLine}}}{Environment.NewLine}");
-
-            // todo add feature block supports
-            //foreach (var block in _result.FeatureBlocks)
-            //{
-            //    WriteLine(Render(block));
-            //}
+            WriteLine("}");
+            
+            foreach (var block in _result.FeatureBlocks)
+            {
+                WriteLine(Render(block));
+            }
 
             PopIndent();
-            Write($"{Environment.NewLine}}}{Environment.NewLine}");
-
+            WriteLine("}");
+            PopIndent();
+            WriteLine("}");
+            
+            // format output
             return GenerationEnvironment.ToString();
         }
-        
+
         private string Render(Block block)
         {
             switch (block.BlockType)
             {
                 case BlockType.TextBlock:
-                    return $"Write(\"{block.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r", "\\r").Replace("\n","\\n")}\");";
+                    return $"Write(\"{block.Content.Replace("\\", "\\\\").Replace("\"", "\\\"").Replace("\r", "\\r").Replace("\n", "\\n")}\");";
 
                 case BlockType.StandardControlBlock:
+                case BlockType.ClassFeatureControlBlock:
                     return block.Content;
 
                 case BlockType.ExpressionControlBlock:

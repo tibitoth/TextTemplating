@@ -1,9 +1,11 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using Test.ParserTests;
 using Testable;
+using TextTemplating.Infrastructure;
 using TextTemplating.T4.Parsing;
 using TextTemplating.T4.Preprocessing;
 using Xunit;
@@ -14,12 +16,14 @@ namespace TextTemplating.Test.T4PreprocessingTests
     {
         private readonly PreprocessTextTransformation _transformer;
         private readonly Func<Block, string> _invokeRender;
+        private readonly ITextTemplatingEngineHost _host;
 
         public PreprocessTextTransformationTest()
         {
-            _transformer = new PreprocessTextTransformation("Test", "TestNs", null, new MockTemplatingHost());
+            _host = new MockTemplatingHost();
+            _transformer = new PreprocessTextTransformation("Test", "TestNs", null, _host);
             var renderAccessor = new PrivateObject(_transformer);
-            _invokeRender = block => renderAccessor.Invoke("Render", new[] {typeof(Block)}, new object[] {block}) as string;
+            _invokeRender = block => renderAccessor.Invoke("Render", new[] { typeof(Block) }, new object[] { block }) as string;
         }
 
         [Fact]
@@ -125,7 +129,7 @@ namespace TextTemplating.Test.T4PreprocessingTests
         }
 
         [Fact]
-        public void RenderTextBlockTest()
+        public void RenderTest()
         {
             var block = new Block
             {
@@ -161,6 +165,124 @@ namespace TextTemplating.Test.T4PreprocessingTests
             var result = _invokeRender(block);
 
             result.Should().Be("Write((isValid ? DateTime.Now : Yesterday).ToString());");
+        }
+
+        [Fact]
+        public void TransformSimpleTextTest()
+        {
+            //      <#  
+            //      foreach (XmlAttribute attr in attributes)  
+            //      {  
+            //      #>  
+            //      Found another one!  
+            //      <#  
+            //          allAtributes.Add(attr.Name);  
+            //      }  
+            //      #> 
+            //      <#+  
+            //      private void OutputFixedAttributeName(string name)
+            //      {
+            //      #>  
+            //      Attribute:  <#= CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name) #>  
+            //      <#+  // <<< Notice that this is also a class feature block.  
+            //      }
+            //      #>  
+
+            var parseResult = new ParseResult();
+            parseResult.Imports.AddRange(_host.StandardImports);
+            parseResult.ContentBlocks.AddRange(new List<Block>
+            {
+                new Block
+                {
+                BlockType = BlockType.StandardControlBlock,
+                Content = @"
+foreach (XmlAttribute attr in attributes)
+{
+"
+                },
+                new Block
+                {
+                    BlockType = BlockType.TextBlock,
+                    Content = @"
+Found another one!
+"
+                },
+                new Block
+                {
+                    BlockType = BlockType.StandardControlBlock,
+                    Content = @"
+    allAtributes.Add(attr.Name);
+}"
+                }
+            });
+            parseResult.FeatureBlocks.AddRange(new List<Block>
+            {
+                new Block
+                {
+                    BlockType = BlockType.ClassFeatureControlBlock,
+                    Content = @"
+private void OutputFixedAttributeName(string name)
+{"
+                },
+                new Block
+                {
+                    BlockType = BlockType.TextBlock,
+                    Content = @"
+Attribute:  "
+                },
+                new Block
+                {
+                    BlockType = BlockType.ExpressionControlBlock,
+                    Content = @"CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name)"
+                },
+                new Block
+                {
+                    BlockType = BlockType.ClassFeatureControlBlock,
+                    Content = @"
+}"
+                }
+            });
+            var transformer = new PreprocessTextTransformation("SimpleText", "Test", parseResult, _host);
+            var transformResult = transformer.TransformText();
+
+            transformResult.Should().NotBeEmpty();
+            var newLineRegex = new Regex("\r\n|\r|\n");
+            var expected =newLineRegex.Replace(@"using System;
+using TextTemplating;
+using TextTemplating.Infrastructure;
+using TextTemplating.T4.Parsing;
+using TextTemplating.T4.Preprocessing;
+
+namespace Test
+{
+    public partial class SimpleText : TextTransformationBase
+    {
+        public override string TransformText()
+        {
+            
+            foreach (XmlAttribute attr in attributes)
+            {
+
+            Write(""\r\nFound another one!\r\n"");
+            
+                allAtributes.Add(attr.Name);
+            }
+            
+            return GenerationEnvironment.ToString();
+        }
+        
+        private void OutputFixedAttributeName(string name)
+        {
+        Write(""\r\nAttribute:  "");
+        Write((CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name)).ToString());
+        
+        }
+    }
+}
+", Environment.NewLine);
+
+            transformResult.Should().Be(expected);
+
         }
 
     }
