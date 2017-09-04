@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <Description>T4 scaffolding for .NET Core 2.0 without Visual Studio</Description>
-    <VersionPrefix>2.0.0-alpha1</VersionPrefix>
+    <VersionPrefix>2.0.0-alpha2</VersionPrefix>
     <Authors>Tibor Tóth, Zeeko Zhu</Authors>
     <TargetFrameworks>netcoreapp2.0</TargetFrameworks>
     <AssemblyName>TextTemplating</AssemblyName>
