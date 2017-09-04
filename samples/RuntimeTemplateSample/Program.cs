@@ -8,7 +8,7 @@ namespace RuntimeTemplateSample
         {
             var template = new RuntimeTextTemplate();
             var output = template.TransformText();
-            
+
             Console.WriteLine(output);
         }
     }

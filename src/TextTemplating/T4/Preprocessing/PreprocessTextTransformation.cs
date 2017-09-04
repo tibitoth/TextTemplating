@@ -1,5 +1,8 @@
 using System;
 using System.Linq;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Formatting;
 using TextTemplating.Infrastructure;
 using TextTemplating.T4.Parsing;
 
@@ -47,7 +50,7 @@ namespace TextTemplating.T4.Preprocessing
             WriteLine("return GenerationEnvironment.ToString();");
             PopIndent();
             WriteLine("}");
-            
+
             foreach (var block in _result.FeatureBlocks)
             {
                 WriteLine(Render(block));
@@ -57,9 +60,16 @@ namespace TextTemplating.T4.Preprocessing
             WriteLine("}");
             PopIndent();
             WriteLine("}");
-            
+
             // format output
-            return GenerationEnvironment.ToString();
+            return FormatCode(GenerationEnvironment.ToString());
+        }
+
+        private string FormatCode(string code)
+        {
+            var tree = CSharpSyntaxTree.ParseText(code);
+            var formattedRoot = Formatter.Format(tree.GetRoot(), new AdhocWorkspace());
+            return formattedRoot.SyntaxTree.ToString();
         }
 
         private string Render(Block block)

@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.10
+VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{37E36B03-F04E-49F5-982E-9FC0F86E9213}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0D844C66-96F0-45D5-8AAB-A5FED91EE176}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{5A045F8B-7EFE-4723-8EB7-79A1A6C30886}"
 EndProject
@@ -19,7 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceSample", "samples\Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextTemplating.Test", "tests\Test\TextTemplating.Test.csproj", "{35024B29-6E81-486F-819B-5A686D835D02}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TextTemplating.Cli", "src\TextTemplating.Cli\TextTemplating.Cli.csproj", "{3D195305-E7DD-4E11-82CE-9D2CE6A4CDA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "dotnet-t4", "src\TextTemplating.Cli\dotnet-t4.csproj", "{3D195305-E7DD-4E11-82CE-9D2CE6A4CDA0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

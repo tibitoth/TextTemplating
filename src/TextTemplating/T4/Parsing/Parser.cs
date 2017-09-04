@@ -52,7 +52,6 @@ namespace TextTemplating.T4.Parsing
             var nextPattern = StartPattern;
             var start = 0;
             var nextType = BlockType.TextBlock;
-            var addToFeatures = false;
 
             var match = nextPattern.Match(content, start);
 
@@ -75,13 +74,13 @@ namespace TextTemplating.T4.Parsing
                     else if (blockContent.Length != 0)
                     {
                         var block = new Block { BlockType = nextType, Content = blockContent };
-                        if (addToFeatures == false)
+                        if (nextType == BlockType.ClassFeatureControlBlock)
                         {
-                            result.ContentBlocks.Add(block);
+                            result.FeatureBlocks.Add(block);
                         }
                         else
                         {
-                            result.FeatureBlocks.Add(block);
+                            result.ContentBlocks.Add(block);
                         }
                     }
                 }
@@ -110,7 +109,6 @@ namespace TextTemplating.T4.Parsing
                         nextPattern = EndPattern;
                         start = match.Index + 3;
                         nextType = BlockType.ClassFeatureControlBlock;
-                        addToFeatures = true;
                         break;
 
                     case "#>":
@@ -145,13 +143,13 @@ namespace TextTemplating.T4.Parsing
                 else if (blockContent.Length != 0)
                 {
                     var block = new Block { BlockType = nextType, Content = blockContent };
-                    if (!addToFeatures)
+                    if (nextType == BlockType.ClassFeatureControlBlock)
                     {
-                        result.ContentBlocks.Add(block);
+                        result.FeatureBlocks.Add(block);
                     }
                     else
                     {
-                        result.FeatureBlocks.Add(block);
+                        result.ContentBlocks.Add(block);
                     }
                 }
             }

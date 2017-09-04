@@ -54,10 +54,10 @@ namespace TextTemplating.Test.ParserTests
         return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);  
     }  
 ";
-            string template = $"<#+{content}#>";
+            string template = $"<#+{content}#>\r\n\r\n";
             var parseResult = _parser.Parse(template);
             parseResult.Should().NotBeNull();
-            parseResult.ContentBlocks.Should().BeNullOrEmpty();
+            parseResult.ContentBlocks.Should().HaveCount(1);
             parseResult.FeatureBlocks
                 .Should().HaveCount(1)
                 .And.Contain(block =>

@@ -259,23 +259,23 @@ namespace Test
     {
         public override string TransformText()
         {
-            
+
             foreach (XmlAttribute attr in attributes)
             {
 
-            Write(""\r\nFound another one!\r\n"");
-            
+                Write(""\r\nFound another one!\r\n"");
+
                 allAtributes.Add(attr.Name);
             }
-            
+
             return GenerationEnvironment.ToString();
         }
-        
+
         private void OutputFixedAttributeName(string name)
         {
-        Write(""\r\nAttribute:  "");
-        Write((CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name)).ToString());
-        
+            Write(""\r\nAttribute:  "");
+            Write((CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name)).ToString());
+
         }
     }
 }
