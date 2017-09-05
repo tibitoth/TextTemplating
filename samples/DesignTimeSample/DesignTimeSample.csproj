@@ -8,6 +8,6 @@
         <PackageReference Include="TextTemplating" Version="2.0.0-alpha4" />
     </ItemGroup>
     <ItemGroup>
-        <DotNetCliToolReference Include="TextTemplating.Tools" Version="2.0.0-alpha4" />
+        <DotNetCliToolReference Include="TextTemplating.Tools" Version="2.0.0-alpha5" />
     </ItemGroup>
 </Project>
