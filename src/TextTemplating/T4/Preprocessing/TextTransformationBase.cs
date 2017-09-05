@@ -24,8 +24,9 @@ namespace TextTemplating.T4.Preprocessing
 
         public string PopIndent()
         {
-            if (Indents.TryPop(out string indent))
+            if (Indents.Any())
             {
+                var indent = Indents.Pop();
                 _currentIndent = _currentIndent.Substring(0, _currentIndent.Length - indent.Length);
                 return indent;
             }

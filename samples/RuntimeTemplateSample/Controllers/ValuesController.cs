@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace RuntimeTemplateSample.Controllers
 {
     [Route("api/[controller]")]
+    [ApiExplorerSettings(IgnoreApi = false, GroupName = nameof(ValuesController))]
     public class ValuesController : Controller
     {
         // GET api/values

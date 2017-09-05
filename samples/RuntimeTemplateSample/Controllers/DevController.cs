@@ -19,7 +19,15 @@ namespace RuntimeTemplateSample.Controllers
         [HttpGet]
         public IActionResult ApiClient([FromQuery] string lib)
         {
-
+            var apis = _apiExplorer.ApiDescriptionGroups.Items.SelectMany(item => item.Items)
+                        .Select(api =>
+                        (
+                            api.HttpMethod,
+                            api.ActionDescriptor.AttributeRouteInfo.Template
+                        ));
+            var template = new ApiClientTemplate(apis);
+            var content = template.TransformText();
+            return Content(content);
         }
     }
 }

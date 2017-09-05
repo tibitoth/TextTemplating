@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <VersionPrefix>2.0.0-alpha2</VersionPrefix>
+    <Version>2.0.0-alpha4</Version>
     <Authors>ZeekoZhu</Authors>
     <Description>TextTemplate command line tool, usage: "dotnet t4 -h"</Description>
     <RootNamespcae>TextTemplate.Cli</RootNamespcae>

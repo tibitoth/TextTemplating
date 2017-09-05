@@ -1,11 +1,19 @@
+
+<#
+foreach(var api in Apis)
+{
+    WriteApi(api.Url, api.Method);
+}
+#>
+
 <#+
-private void WriteApi(string method, string resource, string url, string parameters)
+private void WriteApi(string method, string url)
 {
 #>
 function GetValues(callback) {
     $.ajax({
-        url: "",
-        type: "GET",
+        url: "<#=url#>",
+        type: "<#=method#>",
         data: JSON.stringify(obj),
         contentType: "application/json",
         success: function (res) {

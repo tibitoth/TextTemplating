@@ -10,15 +10,27 @@ namespace RuntimeTemplateSample
     {
         public override string TransformText()
         {
-            Write("\r\nfunction GetValues(callback) {\r\n    $.ajax({\r\n        url: \"\",\r\n        type: \"GET\",\r\n        data: JSON.stringify(obj),\r\n        contentType: \"application/json\",\r\n        success: function (res) {\r\n            callback(res);\r\n        }\r\n    })\r\n}\r\n");
+            Write("\r\n");
+
+            foreach (var api in Apis)
+            {
+                WriteApi(api.Url, api.Method);
+            }
+
+            Write("\r\n\r\n");
             Write("\r\n");
 
             return GenerationEnvironment.ToString();
         }
 
-        private void WriteApi(string method, string resource, string url, string parameters)
+        private void WriteApi(string method, string url)
         {
 
+            Write("\r\nfunction GetValues(callback) {\r\n    $.ajax({\r\n        url: \"");
+            Write((url).ToString());
+            Write("\",\r\n        type: \"");
+            Write((method).ToString());
+            Write("\",\r\n        data: JSON.stringify(obj),\r\n        contentType: \"application/json\",\r\n        success: function (res) {\r\n            callback(res);\r\n        }\r\n    })\r\n}\r\n");
 
         }
 
