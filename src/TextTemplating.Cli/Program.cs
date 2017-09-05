@@ -26,7 +26,7 @@ namespace TextTemplating.Cli
                 command.OnExecute(() =>
                 {
                     var fileName = Path.Combine(Environment.CurrentDirectory, fileOption.Value());
-                    var outputName = Path.Combine(Environment.CurrentDirectory, outputOption.Value() ?? "out.cs");
+                    var outputName = Path.Combine(Environment.CurrentDirectory, outputOption.Value() ?? fileName + ".cs");
                     string className = classNameOption.Value() ?? "GeneratedClass";
                     string namespaceName = namespaceNameOption.Value() ?? "GeneratedNamespace";
                     try
