@@ -143,7 +143,6 @@ namespace TextTemplating.T4.Parsing
                     var block = new Block { BlockType = nextType, Content = blockContent };
                     if (nextType == BlockType.ClassFeatureControlBlock)
                     {
-                        braceCnt += GetBraceCount(blockContent);
                         result.FeatureBlocks.Add(block);
                     }
                     else if (braceCnt > 0)

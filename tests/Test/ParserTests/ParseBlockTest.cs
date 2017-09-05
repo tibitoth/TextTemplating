@@ -74,10 +74,11 @@ namespace TextTemplating.Test.ParserTests
     Hello,<#=name#>!",
                     @"}"
                 };
-            string template = $"<#+{content[0]}#>{content}<#+{content[2]}#>";
+            string template = $"prefix<#+{content[0]}#>{content[1]}<#+{content[2]}#>suffix";
             var parseResult = _parser.Parse(template);
             parseResult.Should().NotBeNull();
             parseResult.FeatureBlocks.Should().HaveCount(5);
+            parseResult.ContentBlocks.Should().HaveCount(2);
         }
 
         private void ParseAssert(string template, string content, BlockType type)
