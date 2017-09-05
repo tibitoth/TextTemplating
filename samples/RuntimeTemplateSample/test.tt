@@ -1,7 +1,0 @@
-<#@ import namespace="System.Globalization" #>
-<#+  
-    private string FixAttributeName(string name)  
-    {  
-        return CultureInfo.CurrentCulture.TextInfo.ToTitleCase(name);  
-    }  
-#>

@@ -1,0 +1,18 @@
+<#+
+private void WriteApi(string method, string resource, string url, string parameters)
+{
+#>
+function GetValues(callback) {
+    $.ajax({
+        url: "",
+        type: "GET",
+        data: JSON.stringify(obj),
+        contentType: "application/json",
+        success: function (res) {
+            callback(res);
+        }
+    })
+}
+<#+
+}
+#>

@@ -64,6 +64,22 @@ namespace TextTemplating.Test.ParserTests
                     block.BlockType == BlockType.ClassFeatureControlBlock && block.Content == content);
         }
 
+        [Fact]
+        public void ParseFeatureBlockWithOtherInsideTest()
+        {
+            string[] content = { @"
+    private void SayHello(string name)
+    {",
+                    @"
+    Hello,<#=name#>!",
+                    @"}"
+                };
+            string template = $"<#+{content[0]}#>{content}<#+{content[2]}#>";
+            var parseResult = _parser.Parse(template);
+            parseResult.Should().NotBeNull();
+            parseResult.FeatureBlocks.Should().HaveCount(5);
+        }
+
         private void ParseAssert(string template, string content, BlockType type)
         {
             var parseResult = _parser.Parse(template);
@@ -78,7 +94,7 @@ namespace TextTemplating.Test.ParserTests
         [Fact]
         public void ProcessInvalidDirectiveTest()
         {
-            var invalidDirectives = new []
+            var invalidDirectives = new[]
             {
                 "<#@ #>",
                 "<#@ notsupported #>",
@@ -91,8 +107,8 @@ namespace TextTemplating.Test.ParserTests
             {
                 var result = new ParseResult();
                 parserAccessor.Invoke("ProcessDirective",
-                    new[] {typeof(string), typeof(ParseResult)},
-                    new object[] {directive, result});
+                    new[] { typeof(string), typeof(ParseResult) },
+                    new object[] { directive, result });
                 result.References.Should().BeNullOrEmpty();
                 result.Imports.Should().BeNullOrEmpty();
                 result.ContentBlocks.Should().BeNullOrEmpty();

@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
-    <VersionPrefix>2.0.0-alpha1</VersionPrefix>
+    <VersionPrefix>2.0.0-alpha2</VersionPrefix>
     <Authors>ZeekoZhu</Authors>
-    <Description>TextTemplate command line tool</Description>
+    <Description>TextTemplate command line tool, usage: "dotnet t4 -h"</Description>
     <RootNamespcae>TextTemplate.Cli</RootNamespcae>
     <OutputType>Exe</OutputType>
+    <PackageId>TextTemplating.Tools</PackageId>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
 
   <ItemGroup>

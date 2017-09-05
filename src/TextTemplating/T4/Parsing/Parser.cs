@@ -7,7 +7,7 @@ using TextTemplating.Infrastructure;
 [assembly: InternalsVisibleTo("TextTemplating.Test")]
 namespace TextTemplating.T4.Parsing
 {
-    
+
     internal class Parser
     {
         private readonly ITextTemplatingEngineHost _host;
@@ -16,7 +16,7 @@ namespace TextTemplating.T4.Parsing
         private readonly HashSet<string> _includedFiles = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
         public Parser(ITextTemplatingEngineHost host)
-        {            
+        {
             _host = host;
         }
 
@@ -52,21 +52,17 @@ namespace TextTemplating.T4.Parsing
             var nextPattern = StartPattern;
             var start = 0;
             var nextType = BlockType.TextBlock;
+            var braceCnt = 0;
 
             var match = nextPattern.Match(content, start);
 
             // 把模板文本分块处理
-            while (match.Success) 
+            while (match.Success)
             {
                 if (match.Index > start)
                 {
                     // 匹配到的部分前面一部分字符
                     var blockContent = content.Substring(start, match.Index - start);
-                    // 移除换行部分
-                    //if (blockContent.StartsWith(Environment.NewLine))
-                    //{
-                    //    blockContent = blockContent.Substring(Environment.NewLine.Length);
-                    //}
                     if (nextType == BlockType.Directive)
                     {
                         ProcessDirective(blockContent, result);
@@ -74,7 +70,13 @@ namespace TextTemplating.T4.Parsing
                     else if (blockContent.Length != 0)
                     {
                         var block = new Block { BlockType = nextType, Content = blockContent };
+                        
                         if (nextType == BlockType.ClassFeatureControlBlock)
+                        {
+                            braceCnt += GetBraceCount(blockContent);
+                            result.FeatureBlocks.Add(block);
+                        }
+                        else if (braceCnt > 0)
                         {
                             result.FeatureBlocks.Add(block);
                         }
@@ -132,10 +134,6 @@ namespace TextTemplating.T4.Parsing
             if (start < content.Length)
             {
                 var blockContent = content.Substring(start);
-                //if (blockContent.StartsWith(Environment.NewLine))
-                //{
-                //    blockContent = blockContent.Substring(Environment.NewLine.Length);
-                //}
                 if (nextType == BlockType.Directive)
                 {
                     ProcessDirective(blockContent, result);
@@ -144,6 +142,11 @@ namespace TextTemplating.T4.Parsing
                 {
                     var block = new Block { BlockType = nextType, Content = blockContent };
                     if (nextType == BlockType.ClassFeatureControlBlock)
+                    {
+                        braceCnt += GetBraceCount(blockContent);
+                        result.FeatureBlocks.Add(block);
+                    }
+                    else if (braceCnt > 0)
                     {
                         result.FeatureBlocks.Add(block);
                     }
@@ -155,6 +158,28 @@ namespace TextTemplating.T4.Parsing
             }
 
             return result;
+        }
+
+        private int GetBraceCount(string blockContent)
+        {
+            int count = 0;
+            for (int i = 0; i < blockContent.Length; i++)
+            {
+                var c = blockContent[i];
+                switch (c)
+                {
+                    case '{':
+                        count++;
+                        break;
+                    case '"':
+                        i = blockContent.IndexOf('"', i + 1) + 1;
+                        break;
+                    case '}':
+                        count--;
+                        break;
+                }
+            }
+            return count;
         }
 
         private void ProcessDirective(string blockContent, ParseResult result)
