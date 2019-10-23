@@ -1,6 +1,6 @@
 # Attention
 
-**This repository wan only an experiment and will no be maintained anymore.** Please use the official and actively maintained solution (https://github.com/mono/t4) which is available as a dotnet global tool. 
+**This repository was only an experiment and will no be maintained anymore.** Please use the official and actively maintained solution (https://github.com/mono/t4) which is available as a dotnet global tool. 
 
 -------------------------------
 
