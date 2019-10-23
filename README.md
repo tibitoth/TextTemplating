@@ -1,3 +1,9 @@
+# Attention
+
+**This repository wan only an expetiment and will no be maintained anymore.** Please use the official and actively maintained solution (https://github.com/mono/t4) which is available as a dotnet global tool. 
+
+-------------------------------
+
 # TextTemplating
 ## Goal
 This project's goal is to bring the old T4 text templating and Razor code generating approach to the new ASP.NET 5 projects.
